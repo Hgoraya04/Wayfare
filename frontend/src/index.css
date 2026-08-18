@@ -1,0 +1,27 @@
+@import 'tailwindcss';
+
+/* Tailwind v4 keeps design tokens in CSS rather than a JS config file.
+   Everything below becomes a utility, e.g. bg-cream, text-ink, bg-terracotta. */
+@theme {
+  --color-cream: #faf7f0;
+  --color-cream-deep: #f2ece0;
+  --color-ink: #2c2420;
+  --color-ink-soft: #6b5d54;
+  --color-terracotta: #c4633f;
+  --color-terracotta-dark: #a54f30;
+  --color-sand: #e4d9c6;
+  --color-moss: #4a6741;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  background-color: var(--color-cream);
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}

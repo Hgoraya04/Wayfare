@@ -8,7 +8,7 @@ If your budget *isn't* realistic, it says so — and tells you the lowest budget
 that would actually work for those preferences, instead of returning nothing.
 
 > **Live demo:** _coming soon_
-> **Status:** backend in progress · frontend next
+> **Status:** backend working · frontend started
 
 <!-- TODO: demo GIF here. Recruiters watch this before they read anything else. -->
 
@@ -93,6 +93,19 @@ npm run dev
 ```
 
 The API comes up on `http://localhost:4000`.
+
+Then, in a second terminal, start the web app:
+
+```bash
+cd wayfare/frontend
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`. Vite proxies `/api` to the backend, so nothing is
+hardcoded and there's no CORS setup in dev.
+
+If you ran `npm run db:seed`, sign in with **demo@wayfare.app** / **demo1234**.
 
 ### Environment variables
 
@@ -180,7 +193,8 @@ and style filtering, seasonal ranking, and input validation.
 - [x] Claude itinerary generation with structured outputs
 - [ ] Google Places integration (restaurants + attractions)
 - [ ] Duffel flight pricing (test mode)
-- [ ] React frontend — multi-step form, itinerary view, map
+- [x] React frontend scaffold — Tailwind theme, login, destination browser
+- [ ] Multi-step preferences form + itinerary view + map
 - [ ] Deploy (Vercel + Neon) and record the demo GIF
 - [ ] Response caching and rate-limit guardrails
 
