@@ -10,11 +10,12 @@ export function getPool() {
     if (!url) {
       throw new Error('DATABASE_URL is not set. Add it to backend/.env');
     }
+    // `pg` currently treats sslmode=require as full verification, but plans to
+    // relax it to libpq semantics in v9. Pinning verify-full keeps certificate
+    // checking on across that change. Neon presents a publicly-trusted cert, so
+    // no rejectUnauthorized override is needed.
     pool = new Pool({
-      connectionString: url,
-      // Neon terminates connections without SSL. Locally (no sslmode in the URL)
-      // we skip it so a plain postgres:// on localhost still works.
-      ssl: url.includes('sslmode=require') ? { rejectUnauthorized: false } : false,
+      connectionString: url.replace(/sslmode=(require|prefer|verify-ca)\b/, 'sslmode=verify-full'),
       max: 10,
     });
   }
