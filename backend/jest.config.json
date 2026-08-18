@@ -1,0 +1,6 @@
+{
+  "testEnvironment": "node",
+  "transform": {},
+  "testMatch": ["**/tests/**/*.test.js"],
+  "collectCoverageFrom": ["services/**/*.js", "routes/**/*.js", "middleware/**/*.js"]
+}

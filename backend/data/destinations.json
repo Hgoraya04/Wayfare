@@ -1,0 +1,251 @@
+{
+  "_meta": {
+    "note": "Hand-curated approximations. All costs are USD, per person, per day, excluding flights. Tiers: budget = hostel/guesthouse + street food + public transit; mid = 3-star hotel + casual restaurants + occasional taxi; luxury = 4/5-star + fine dining + private transfers.",
+    "lastReviewed": "2026-08-17",
+    "currency": "USD"
+  },
+  "destinations": [
+    {
+      "id": "lisbon-pt", "city": "Lisbon", "country": "Portugal", "countryCode": "PT",
+      "region": "Europe", "localCurrency": "EUR", "lat": 38.7223, "lon": -9.1393,
+      "flightHubs": ["LIS"], "bestMonths": [4, 5, 6, 9, 10],
+      "tripStyles": ["sightseeing", "food"],
+      "dailyCost": {
+        "budget":   { "lodging": 35, "food": 25, "localTransport": 6, "activities": 10 },
+        "midRange": { "lodging": 95, "food": 55, "localTransport": 12, "activities": 25 },
+        "luxury":   { "lodging": 260, "food": 120, "localTransport": 30, "activities": 60 }
+      }
+    },
+    {
+      "id": "krakow-pl", "city": "Kraków", "country": "Poland", "countryCode": "PL",
+      "region": "Europe", "localCurrency": "PLN", "lat": 50.0647, "lon": 19.945,
+      "flightHubs": ["KRK"], "bestMonths": [5, 6, 7, 8, 9],
+      "tripStyles": ["sightseeing", "food"],
+      "dailyCost": {
+        "budget":   { "lodging": 28, "food": 20, "localTransport": 4, "activities": 8 },
+        "midRange": { "lodging": 75, "food": 45, "localTransport": 9, "activities": 18 },
+        "luxury":   { "lodging": 200, "food": 95, "localTransport": 22, "activities": 45 }
+      }
+    },
+    {
+      "id": "budapest-hu", "city": "Budapest", "country": "Hungary", "countryCode": "HU",
+      "region": "Europe", "localCurrency": "HUF", "lat": 47.4979, "lon": 19.0402,
+      "flightHubs": ["BUD"], "bestMonths": [4, 5, 6, 9, 10],
+      "tripStyles": ["sightseeing", "food"],
+      "dailyCost": {
+        "budget":   { "lodging": 30, "food": 22, "localTransport": 5, "activities": 9 },
+        "midRange": { "lodging": 80, "food": 48, "localTransport": 10, "activities": 20 },
+        "luxury":   { "lodging": 210, "food": 100, "localTransport": 25, "activities": 48 }
+      }
+    },
+    {
+      "id": "athens-gr", "city": "Athens", "country": "Greece", "countryCode": "GR",
+      "region": "Europe", "localCurrency": "EUR", "lat": 37.9838, "lon": 23.7275,
+      "flightHubs": ["ATH"], "bestMonths": [4, 5, 6, 9, 10],
+      "tripStyles": ["sightseeing", "food"],
+      "dailyCost": {
+        "budget":   { "lodging": 35, "food": 25, "localTransport": 5, "activities": 10 },
+        "midRange": { "lodging": 90, "food": 52, "localTransport": 11, "activities": 22 },
+        "luxury":   { "lodging": 230, "food": 105, "localTransport": 26, "activities": 50 }
+      }
+    },
+    {
+      "id": "paris-fr", "city": "Paris", "country": "France", "countryCode": "FR",
+      "region": "Europe", "localCurrency": "EUR", "lat": 48.8566, "lon": 2.3522,
+      "flightHubs": ["CDG", "ORY"], "bestMonths": [4, 5, 6, 9, 10],
+      "tripStyles": ["sightseeing", "food"],
+      "dailyCost": {
+        "budget":   { "lodging": 55, "food": 30, "localTransport": 8, "activities": 14 },
+        "midRange": { "lodging": 160, "food": 80, "localTransport": 14, "activities": 30 },
+        "luxury":   { "lodging": 420, "food": 200, "localTransport": 40, "activities": 80 }
+      }
+    },
+    {
+      "id": "amsterdam-nl", "city": "Amsterdam", "country": "Netherlands", "countryCode": "NL",
+      "region": "Europe", "localCurrency": "EUR", "lat": 52.3676, "lon": 4.9041,
+      "flightHubs": ["AMS"], "bestMonths": [4, 5, 6, 7, 9],
+      "tripStyles": ["sightseeing", "food"],
+      "dailyCost": {
+        "budget":   { "lodging": 55, "food": 32, "localTransport": 8, "activities": 14 },
+        "midRange": { "lodging": 160, "food": 78, "localTransport": 14, "activities": 30 },
+        "luxury":   { "lodging": 400, "food": 190, "localTransport": 35, "activities": 75 }
+      }
+    },
+    {
+      "id": "istanbul-tr", "city": "Istanbul", "country": "Türkiye", "countryCode": "TR",
+      "region": "Europe/Asia", "localCurrency": "TRY", "lat": 41.0082, "lon": 28.9784,
+      "flightHubs": ["IST", "SAW"], "bestMonths": [4, 5, 6, 9, 10],
+      "tripStyles": ["sightseeing", "food"],
+      "dailyCost": {
+        "budget":   { "lodging": 25, "food": 18, "localTransport": 4, "activities": 8 },
+        "midRange": { "lodging": 75, "food": 42, "localTransport": 9, "activities": 18 },
+        "luxury":   { "lodging": 220, "food": 95, "localTransport": 24, "activities": 45 }
+      }
+    },
+    {
+      "id": "bangkok-th", "city": "Bangkok", "country": "Thailand", "countryCode": "TH",
+      "region": "Asia", "localCurrency": "THB", "lat": 13.7563, "lon": 100.5018,
+      "flightHubs": ["BKK", "DMK"], "bestMonths": [11, 12, 1, 2],
+      "tripStyles": ["food", "sightseeing", "adventure"],
+      "dailyCost": {
+        "budget":   { "lodging": 15, "food": 12, "localTransport": 4, "activities": 8 },
+        "midRange": { "lodging": 60, "food": 35, "localTransport": 10, "activities": 20 },
+        "luxury":   { "lodging": 200, "food": 90, "localTransport": 25, "activities": 50 }
+      }
+    },
+    {
+      "id": "hanoi-vn", "city": "Hanoi", "country": "Vietnam", "countryCode": "VN",
+      "region": "Asia", "localCurrency": "VND", "lat": 21.0278, "lon": 105.8342,
+      "flightHubs": ["HAN"], "bestMonths": [10, 11, 3, 4],
+      "tripStyles": ["food", "sightseeing", "adventure"],
+      "dailyCost": {
+        "budget":   { "lodging": 12, "food": 10, "localTransport": 3, "activities": 6 },
+        "midRange": { "lodging": 50, "food": 28, "localTransport": 8, "activities": 15 },
+        "luxury":   { "lodging": 170, "food": 75, "localTransport": 20, "activities": 40 }
+      }
+    },
+    {
+      "id": "bali-id", "city": "Denpasar (Bali)", "country": "Indonesia", "countryCode": "ID",
+      "region": "Asia", "localCurrency": "IDR", "lat": -8.6705, "lon": 115.2126,
+      "flightHubs": ["DPS"], "bestMonths": [5, 6, 7, 8, 9],
+      "tripStyles": ["adventure", "food", "sightseeing"],
+      "dailyCost": {
+        "budget":   { "lodging": 20, "food": 13, "localTransport": 5, "activities": 9 },
+        "midRange": { "lodging": 70, "food": 38, "localTransport": 12, "activities": 22 },
+        "luxury":   { "lodging": 250, "food": 100, "localTransport": 30, "activities": 55 }
+      }
+    },
+    {
+      "id": "kuala-lumpur-my", "city": "Kuala Lumpur", "country": "Malaysia", "countryCode": "MY",
+      "region": "Asia", "localCurrency": "MYR", "lat": 3.139, "lon": 101.6869,
+      "flightHubs": ["KUL"], "bestMonths": [5, 6, 7, 2, 3],
+      "tripStyles": ["food", "sightseeing"],
+      "dailyCost": {
+        "budget":   { "lodging": 20, "food": 12, "localTransport": 4, "activities": 7 },
+        "midRange": { "lodging": 65, "food": 35, "localTransport": 10, "activities": 18 },
+        "luxury":   { "lodging": 210, "food": 85, "localTransport": 25, "activities": 42 }
+      }
+    },
+    {
+      "id": "tokyo-jp", "city": "Tokyo", "country": "Japan", "countryCode": "JP",
+      "region": "Asia", "localCurrency": "JPY", "lat": 35.6762, "lon": 139.6503,
+      "flightHubs": ["HND", "NRT"], "bestMonths": [3, 4, 5, 10, 11],
+      "tripStyles": ["food", "sightseeing"],
+      "dailyCost": {
+        "budget":   { "lodging": 40, "food": 25, "localTransport": 8, "activities": 10 },
+        "midRange": { "lodging": 130, "food": 70, "localTransport": 15, "activities": 30 },
+        "luxury":   { "lodging": 350, "food": 180, "localTransport": 40, "activities": 70 }
+      }
+    },
+    {
+      "id": "seoul-kr", "city": "Seoul", "country": "South Korea", "countryCode": "KR",
+      "region": "Asia", "localCurrency": "KRW", "lat": 37.5665, "lon": 126.978,
+      "flightHubs": ["ICN", "GMP"], "bestMonths": [4, 5, 9, 10, 11],
+      "tripStyles": ["food", "sightseeing"],
+      "dailyCost": {
+        "budget":   { "lodging": 35, "food": 22, "localTransport": 6, "activities": 10 },
+        "midRange": { "lodging": 105, "food": 55, "localTransport": 12, "activities": 25 },
+        "luxury":   { "lodging": 300, "food": 140, "localTransport": 30, "activities": 60 }
+      }
+    },
+    {
+      "id": "singapore-sg", "city": "Singapore", "country": "Singapore", "countryCode": "SG",
+      "region": "Asia", "localCurrency": "SGD", "lat": 1.3521, "lon": 103.8198,
+      "flightHubs": ["SIN"], "bestMonths": [2, 3, 4, 7, 8],
+      "tripStyles": ["food", "sightseeing"],
+      "dailyCost": {
+        "budget":   { "lodging": 45, "food": 22, "localTransport": 6, "activities": 12 },
+        "midRange": { "lodging": 140, "food": 60, "localTransport": 12, "activities": 28 },
+        "luxury":   { "lodging": 380, "food": 160, "localTransport": 30, "activities": 65 }
+      }
+    },
+    {
+      "id": "mexico-city-mx", "city": "Mexico City", "country": "Mexico", "countryCode": "MX",
+      "region": "North America", "localCurrency": "MXN", "lat": 19.4326, "lon": -99.1332,
+      "flightHubs": ["MEX"], "bestMonths": [3, 4, 5, 10, 11],
+      "tripStyles": ["food", "sightseeing"],
+      "dailyCost": {
+        "budget":   { "lodging": 25, "food": 15, "localTransport": 5, "activities": 8 },
+        "midRange": { "lodging": 85, "food": 45, "localTransport": 12, "activities": 20 },
+        "luxury":   { "lodging": 240, "food": 110, "localTransport": 30, "activities": 50 }
+      }
+    },
+    {
+      "id": "new-york-us", "city": "New York", "country": "United States", "countryCode": "US",
+      "region": "North America", "localCurrency": "USD", "lat": 40.7128, "lon": -74.006,
+      "flightHubs": ["JFK", "LGA", "EWR"], "bestMonths": [4, 5, 6, 9, 10],
+      "tripStyles": ["sightseeing", "food"],
+      "dailyCost": {
+        "budget":   { "lodging": 70, "food": 35, "localTransport": 8, "activities": 15 },
+        "midRange": { "lodging": 220, "food": 90, "localTransport": 15, "activities": 35 },
+        "luxury":   { "lodging": 550, "food": 220, "localTransport": 50, "activities": 90 }
+      }
+    },
+    {
+      "id": "medellin-co", "city": "Medellín", "country": "Colombia", "countryCode": "CO",
+      "region": "South America", "localCurrency": "COP", "lat": 6.2442, "lon": -75.5812,
+      "flightHubs": ["MDE"], "bestMonths": [12, 1, 2, 3, 7],
+      "tripStyles": ["adventure", "food", "sightseeing"],
+      "dailyCost": {
+        "budget":   { "lodging": 22, "food": 15, "localTransport": 5, "activities": 8 },
+        "midRange": { "lodging": 70, "food": 38, "localTransport": 11, "activities": 18 },
+        "luxury":   { "lodging": 200, "food": 90, "localTransport": 28, "activities": 42 }
+      }
+    },
+    {
+      "id": "buenos-aires-ar", "city": "Buenos Aires", "country": "Argentina", "countryCode": "AR",
+      "region": "South America", "localCurrency": "ARS", "lat": -34.6037, "lon": -58.3816,
+      "flightHubs": ["EZE", "AEP"], "bestMonths": [3, 4, 10, 11],
+      "tripStyles": ["food", "sightseeing"],
+      "dailyCost": {
+        "budget":   { "lodging": 25, "food": 18, "localTransport": 5, "activities": 9 },
+        "midRange": { "lodging": 75, "food": 42, "localTransport": 11, "activities": 20 },
+        "luxury":   { "lodging": 210, "food": 95, "localTransport": 28, "activities": 45 }
+      }
+    },
+    {
+      "id": "cusco-pe", "city": "Cusco", "country": "Peru", "countryCode": "PE",
+      "region": "South America", "localCurrency": "PEN", "lat": -13.5319, "lon": -71.9675,
+      "flightHubs": ["CUZ"], "bestMonths": [5, 6, 7, 8, 9],
+      "tripStyles": ["adventure", "sightseeing"],
+      "dailyCost": {
+        "budget":   { "lodging": 20, "food": 14, "localTransport": 4, "activities": 12 },
+        "midRange": { "lodging": 65, "food": 35, "localTransport": 9, "activities": 28 },
+        "luxury":   { "lodging": 190, "food": 85, "localTransport": 22, "activities": 60 }
+      }
+    },
+    {
+      "id": "marrakech-ma", "city": "Marrakech", "country": "Morocco", "countryCode": "MA",
+      "region": "Africa", "localCurrency": "MAD", "lat": 31.6295, "lon": -7.9811,
+      "flightHubs": ["RAK"], "bestMonths": [3, 4, 5, 10, 11],
+      "tripStyles": ["sightseeing", "food", "adventure"],
+      "dailyCost": {
+        "budget":   { "lodging": 25, "food": 18, "localTransport": 5, "activities": 9 },
+        "midRange": { "lodging": 75, "food": 40, "localTransport": 10, "activities": 20 },
+        "luxury":   { "lodging": 240, "food": 100, "localTransport": 28, "activities": 50 }
+      }
+    },
+    {
+      "id": "cape-town-za", "city": "Cape Town", "country": "South Africa", "countryCode": "ZA",
+      "region": "Africa", "localCurrency": "ZAR", "lat": -33.9249, "lon": 18.4241,
+      "flightHubs": ["CPT"], "bestMonths": [11, 12, 1, 2, 3],
+      "tripStyles": ["adventure", "food", "sightseeing"],
+      "dailyCost": {
+        "budget":   { "lodging": 30, "food": 22, "localTransport": 7, "activities": 12 },
+        "midRange": { "lodging": 85, "food": 48, "localTransport": 15, "activities": 25 },
+        "luxury":   { "lodging": 250, "food": 110, "localTransport": 35, "activities": 55 }
+      }
+    },
+    {
+      "id": "sydney-au", "city": "Sydney", "country": "Australia", "countryCode": "AU",
+      "region": "Oceania", "localCurrency": "AUD", "lat": -33.8688, "lon": 151.2093,
+      "flightHubs": ["SYD"], "bestMonths": [10, 11, 12, 2, 3],
+      "tripStyles": ["adventure", "sightseeing", "food"],
+      "dailyCost": {
+        "budget":   { "lodging": 50, "food": 32, "localTransport": 8, "activities": 14 },
+        "midRange": { "lodging": 150, "food": 75, "localTransport": 16, "activities": 32 },
+        "luxury":   { "lodging": 380, "food": 170, "localTransport": 38, "activities": 70 }
+      }
+    }
+  ]
+}

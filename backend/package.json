@@ -1,0 +1,28 @@
+{
+  "name": "wayfare-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Wayfare REST API — AI travel planner (Express + Postgres).",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "db:setup": "node db/setup.js",
+    "db:seed": "node db/seed.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.config.json --runInBand",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.config.json --runInBand --coverage"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.117.1",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}
