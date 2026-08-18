@@ -79,6 +79,7 @@ async function loadFullTrip(tripId, userId) {
 
   return {
     ...toTrip(tripResult.rows[0]),
+    hasItinerary: days.rows.length > 0,
     days: days.rows.map((d) => ({
       id: d.id,
       dayNumber: d.daynumber,
@@ -91,11 +92,18 @@ async function loadFullTrip(tripId, userId) {
 
 router.get('/', async (req, res) => {
   try {
+    // The day count rides along so the list can show which trips are planned
+    // without loading every stop for every trip.
     const result = await query(
-      'SELECT * FROM trip WHERE userId = $1 ORDER BY createdAt DESC',
+      `SELECT t.*, COUNT(d.id)::int AS daycount
+       FROM trip t
+       LEFT JOIN itinerary_day d ON d.tripId = t.id
+       WHERE t.userId = $1
+       GROUP BY t.id
+       ORDER BY t.createdAt DESC`,
       [req.user.id],
     );
-    res.json(result.rows.map(toTrip));
+    res.json(result.rows.map((row) => ({ ...toTrip(row), hasItinerary: row.daycount > 0 })));
   } catch (err) {
     console.error('list trips failed:', err.message);
     res.status(500).json({ error: 'Could not load your trips.' });
@@ -114,8 +122,9 @@ router.get('/:id', async (req, res) => {
 });
 
 /**
- * Generates an itinerary and saves it. Rejects with the budget floor when the
- * trip is not affordable, rather than generating something the user can't take.
+ * Saves a trip plan. Deliberately does NOT call Claude — saving is free and
+ * instant, generation costs money and can fail, so they are separate steps.
+ * Generate afterwards with POST /api/trips/:id/itinerary.
  */
 router.post('/', async (req, res) => {
   const error = validatePreferences(req.body);
@@ -127,14 +136,13 @@ router.post('/', async (req, res) => {
   const durationDays = Number(req.body.durationDays);
   const travelers = Number(req.body.travelers ?? 1);
   const budget = Number(req.body.budget);
-  const flightCostPerPerson = Number(req.body.flightCostPerPerson ?? 0);
 
   const feasibility = assessFeasibility({
     destination,
     budget,
     durationDays,
     travelers,
-    flightCostPerPerson,
+    flightCostPerPerson: Number(req.body.flightCostPerPerson ?? 0),
   });
 
   if (!feasibility.feasible) {
@@ -145,20 +153,85 @@ router.post('/', async (req, res) => {
     });
   }
 
+  const title =
+    String(req.body.title ?? '').trim() ||
+    `${durationDays} days in ${destination.city}`;
+
+  try {
+    const result = await query(
+      `INSERT INTO trip (
+         userId, title, destinationId, destinationCity, destinationCountry,
+         startDate, endDate, flexibleMonth, durationDays, travelers,
+         budgetAmount, budgetCurrency, estimatedCost, tripStyles, cuisines,
+         baggage, preferences
+       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
+       RETURNING id`,
+      [
+        req.user.id,
+        title,
+        destination.id,
+        destination.city,
+        destination.country,
+        req.body.startDate || null,
+        req.body.endDate || null,
+        req.body.flexibleMonth || null,
+        durationDays,
+        travelers,
+        budget,
+        req.body.budgetCurrency ?? 'USD',
+        feasibility.estimate.total,
+        req.body.tripStyles ?? [],
+        req.body.cuisines ?? [],
+        req.body.baggage ?? 'carry_on',
+        JSON.stringify({ tier: feasibility.tier, breakdown: feasibility.estimate.breakdown }),
+      ],
+    );
+
+    res.status(201).json(await loadFullTrip(result.rows[0].id, req.user.id));
+  } catch (err) {
+    console.error('save trip failed:', err.message);
+    res.status(500).json({ error: 'Could not save the trip.' });
+  }
+});
+
+/**
+ * Generates the day-by-day itinerary for an already-saved trip. Replaces any
+ * existing itinerary, so this doubles as "regenerate".
+ */
+router.post('/:id/itinerary', async (req, res) => {
+  const tripId = Number(req.params.id);
+
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return res.status(503).json({
+      error: 'Itinerary generation is not configured yet. Add ANTHROPIC_API_KEY to backend/.env.',
+    });
+  }
+
+  let trip;
+  try {
+    trip = await loadFullTrip(tripId, req.user.id);
+  } catch (err) {
+    console.error('load for generation failed:', err.message);
+    return res.status(500).json({ error: 'Could not load the trip.' });
+  }
+  if (!trip) return res.status(404).json({ error: 'Trip not found.' });
+
+  const destination = getDestination(trip.destination.id);
+  if (!destination) return res.status(400).json({ error: 'Trip references an unknown destination.' });
+
   let generated;
   try {
     generated = await generateItinerary({
       trip: {
         destination,
-        tier: feasibility.tier,
-        durationDays,
-        travelers,
-        tripStyles: req.body.tripStyles ?? [],
-        cuisines: req.body.cuisines ?? [],
+        tier: trip.preferences?.tier ?? 'midRange',
+        durationDays: trip.durationDays,
+        travelers: trip.travelers,
+        tripStyles: trip.tripStyles,
+        cuisines: trip.cuisines,
       },
-      // TODO: real Google Places results. Empty lists let the flow run
-      // end-to-end before that integration lands.
-      places: req.body.places ?? { attractions: [], restaurants: [] },
+      // TODO: real Google Places results once that integration lands.
+      places: req.body?.places ?? { attractions: [], restaurants: [] },
     });
   } catch (err) {
     console.error('generation failed:', err.message);
@@ -166,37 +239,9 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    const saved = await withTransaction(async (client) => {
-      const tripResult = await client.query(
-        `INSERT INTO trip (
-           userId, title, destinationId, destinationCity, destinationCountry,
-           startDate, endDate, flexibleMonth, durationDays, travelers,
-           budgetAmount, budgetCurrency, estimatedCost, tripStyles, cuisines,
-           baggage, preferences
-         ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
-         RETURNING id`,
-        [
-          req.user.id,
-          generated.itinerary.tripTitle,
-          destination.id,
-          destination.city,
-          destination.country,
-          req.body.startDate || null,
-          req.body.endDate || null,
-          req.body.flexibleMonth || null,
-          durationDays,
-          travelers,
-          budget,
-          req.body.budgetCurrency ?? 'USD',
-          feasibility.estimate.total,
-          req.body.tripStyles ?? [],
-          req.body.cuisines ?? [],
-          req.body.baggage ?? 'carry_on',
-          JSON.stringify({ overview: generated.itinerary.overview, tier: feasibility.tier }),
-        ],
-      );
-
-      const tripId = tripResult.rows[0].id;
+    await withTransaction(async (client) => {
+      // Regenerating replaces the previous plan; stops cascade from days.
+      await client.query('DELETE FROM itinerary_day WHERE tripId = $1', [tripId]);
 
       for (const day of generated.itinerary.days) {
         const dayResult = await client.query(
@@ -225,23 +270,34 @@ router.post('/', async (req, res) => {
         }
       }
 
-      return tripId;
+      await client.query(
+        `UPDATE trip SET title = $1, preferences = preferences || $2::jsonb, updatedAt = NOW()
+         WHERE id = $3`,
+        [
+          generated.itinerary.tripTitle,
+          JSON.stringify({ overview: generated.itinerary.overview }),
+          tripId,
+        ],
+      );
     });
 
-    res.status(201).json(await loadFullTrip(saved, req.user.id));
+    res.json(await loadFullTrip(tripId, req.user.id));
   } catch (err) {
-    console.error('save trip failed:', err.message);
+    console.error('save itinerary failed:', err.message);
     res.status(500).json({ error: 'The itinerary was generated but could not be saved.' });
   }
 });
 
-/** Rename / retitle. Editing stops is handled by the stop routes below. */
 router.patch('/:id', async (req, res) => {
   const id = Number(req.params.id);
   const fields = [];
   const values = [];
 
-  for (const [key, column] of Object.entries({ title: 'title', startDate: 'startDate', endDate: 'endDate' })) {
+  for (const [key, column] of Object.entries({
+    title: 'title',
+    startDate: 'startDate',
+    endDate: 'endDate',
+  })) {
     if (req.body[key] !== undefined) {
       values.push(req.body[key] || null);
       fields.push(`${column} = $${values.length}`);

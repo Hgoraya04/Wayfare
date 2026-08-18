@@ -27,6 +27,7 @@ export default function Layout({ children }) {
           <p className="text-xs uppercase tracking-[0.2em] text-ink-soft">Wayfare</p>
           <nav className="flex items-center gap-1">
             <NavItem to="/plan">Plan a trip</NavItem>
+            <NavItem to="/trips">My trips</NavItem>
             <NavItem to="/destinations">Destinations</NavItem>
           </nav>
           <div className="ml-auto flex items-center gap-3">

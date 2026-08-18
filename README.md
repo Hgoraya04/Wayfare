@@ -41,6 +41,14 @@ that would actually work for those preferences, instead of returning nothing.
 | Flights | Duffel API (test mode) |
 | Tests | Jest + Supertest |
 
+### Why saving and generating are separate
+
+`POST /api/trips` saves a plan and never calls Claude. Generation is a second
+call to `POST /api/trips/:id/itinerary`. Saving is free, instant, and always
+works; generation costs money and can fail. Coupling them would mean an API
+outage stops you saving a trip, and every retry of a save re-bills a generation.
+It also means the app is fully usable before an API key is configured.
+
 ### Why structured outputs
 
 Itinerary generation uses Claude's `output_config.format` with a JSON schema, so
@@ -134,7 +142,8 @@ If you ran `npm run db:seed`, sign in with **demo@wayfare.app** / **demo1234**.
 | `POST` | `/api/destinations/:id/feasibility` | — | Budget check for one destination |
 | `GET` | `/api/trips` | ✓ | Your saved trips |
 | `GET` | `/api/trips/:id` | ✓ | One trip with days and stops |
-| `POST` | `/api/trips` | ✓ | Generate and save an itinerary |
+| `POST` | `/api/trips` | ✓ | Save a trip plan (no AI call) |
+| `POST` | `/api/trips/:id/itinerary` | ✓ | Generate the day-by-day plan |
 | `PATCH` | `/api/trips/:id` | ✓ | Rename / change dates |
 | `PATCH` | `/api/trips/:tripId/stops/:stopId` | ✓ | Edit a stop |
 | `DELETE` | `/api/trips/:tripId/stops/:stopId` | ✓ | Remove a stop |
@@ -195,6 +204,7 @@ and style filtering, seasonal ranking, and input validation.
 - [ ] Duffel flight pricing (test mode)
 - [x] React frontend — Tailwind theme, login, destination browser
 - [x] Budget planner screen with the shortfall fallback
+- [x] Save, list, and delete trips
 - [ ] Itinerary view + map
 - [ ] Deploy (Vercel + Neon) and record the demo GIF
 - [ ] Response caching and rate-limit guardrails

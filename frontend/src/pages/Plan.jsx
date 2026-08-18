@@ -22,7 +22,7 @@ const money = (n) => {
   });
 };
 
-function MatchCard({ match }) {
+function MatchCard({ match, onSave, saveState }) {
   const { estimate } = match;
   const parts = [
     ['Lodging', estimate.breakdown.lodging],
@@ -60,7 +60,7 @@ function MatchCard({ match }) {
         </span>
       </div>
 
-      <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-2 border-t border-sand pt-4 text-sm">
+      <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-2 border-y border-sand py-4 text-sm">
         {parts.map(([label, value]) => (
           <div key={label} className="flex justify-between gap-2">
             <dt className="text-ink-soft">{label}</dt>
@@ -68,6 +68,19 @@ function MatchCard({ match }) {
           </div>
         ))}
       </dl>
+
+      <div className="mt-4">
+        <Button
+          onClick={() => onSave(match)}
+          disabled={saveState === 'saving' || saveState === 'saved'}
+          variant={saveState === 'saved' ? 'ghost' : 'primary'}
+          className="px-5 py-2 text-sm"
+        >
+          {saveState === 'saving' && 'Saving…'}
+          {saveState === 'saved' && 'Saved ✓'}
+          {!saveState && 'Save this trip'}
+        </Button>
+      </div>
     </article>
   );
 }
@@ -114,6 +127,7 @@ export default function Plan() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [saveStates, setSaveStates] = useState({});
 
   useEffect(() => {
     api('/destinations')
@@ -151,11 +165,34 @@ export default function Plan() {
         },
       });
       setResult(data);
+      setSaveStates({}); // a new search means new cards, so clear old save badges
     } catch (err) {
       setError(err.message);
       setResult(null);
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function saveTrip(match) {
+    setSaveStates((s) => ({ ...s, [match.destinationId]: 'saving' }));
+    setError('');
+    try {
+      await api('/trips', {
+        method: 'POST',
+        body: {
+          destinationId: match.destinationId,
+          budget: Number(budget),
+          durationDays: Number(durationDays),
+          travelers: Number(travelers),
+          tripStyles: styles,
+          flexibleMonth: month ? MONTHS[Number(month) - 1] : null,
+        },
+      });
+      setSaveStates((s) => ({ ...s, [match.destinationId]: 'saved' }));
+    } catch (err) {
+      setSaveStates((s) => ({ ...s, [match.destinationId]: undefined }));
+      setError(err.message);
     }
   }
 
@@ -277,7 +314,12 @@ export default function Plan() {
               </div>
               <div className="grid gap-4 lg:grid-cols-2">
                 {result.matches.map((match) => (
-                  <MatchCard key={match.destinationId} match={match} />
+                  <MatchCard
+                    key={match.destinationId}
+                    match={match}
+                    onSave={saveTrip}
+                    saveState={saveStates[match.destinationId]}
+                  />
                 ))}
               </div>
             </>

@@ -4,6 +4,7 @@ import { Spinner } from './components/ui.jsx';
 import Login from './pages/Login.jsx';
 import Destinations from './pages/Destinations.jsx';
 import Plan from './pages/Plan.jsx';
+import Trips from './pages/Trips.jsx';
 
 function RequireAuth({ children }) {
   const { user, loading } = useAuth();
@@ -28,6 +29,14 @@ export default function App() {
             element={
               <RequireAuth>
                 <Plan />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/trips"
+            element={
+              <RequireAuth>
+                <Trips />
               </RequireAuth>
             }
           />
