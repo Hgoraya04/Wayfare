@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api/client.js';
-import { useAuth } from '../context/AuthContext.jsx';
-import { Button, Alert, Spinner } from '../components/ui.jsx';
+import Layout from '../components/Layout.jsx';
+import { Alert, Spinner } from '../components/ui.jsx';
 
 const REGION_ORDER = ['Europe', 'Europe/Asia', 'Asia', 'Africa', 'North America', 'South America', 'Oceania'];
 
@@ -34,7 +34,6 @@ function DestinationCard({ destination }) {
 }
 
 export default function Destinations() {
-  const { user, logout } = useAuth();
   const [destinations, setDestinations] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -51,19 +50,7 @@ export default function Destinations() {
   );
 
   return (
-    <div className="min-h-dvh">
-      <header className="border-b border-sand">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-          <p className="text-xs uppercase tracking-[0.2em] text-ink-soft">Wayfare</p>
-          <div className="flex items-center gap-4">
-            {user && <span className="text-sm text-ink-soft">{user.fullName ?? user.email}</span>}
-            <Button variant="ghost" onClick={logout} className="px-4 py-2">
-              Sign out
-            </Button>
-          </div>
-        </div>
-      </header>
-
+    <Layout>
       <main className="mx-auto max-w-5xl px-6 py-12">
         <div className="mb-10 max-w-2xl">
           <h1 className="font-display text-4xl leading-tight text-ink">
@@ -98,6 +85,6 @@ export default function Destinations() {
           </div>
         )}
       </main>
-    </div>
+    </Layout>
   );
 }

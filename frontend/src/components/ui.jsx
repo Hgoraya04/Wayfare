@@ -55,3 +55,61 @@ export function Spinner({ label = 'Loading' }) {
     </div>
   );
 }
+
+/** Number input with a leading unit, e.g. "$" or "days". */
+export function NumberField({ label, id, prefix, suffix, hint, ...props }) {
+  return (
+    <div className="space-y-1.5">
+      <label htmlFor={id} className="block text-sm font-medium text-ink">
+        {label}
+      </label>
+      <div className="flex items-center rounded-xl border border-sand bg-white focus-within:border-terracotta focus-within:ring-2 focus-within:ring-terracotta/20">
+        {prefix && <span className="pl-4 text-ink-soft">{prefix}</span>}
+        <input
+          id={id}
+          type="number"
+          className="w-full bg-transparent px-3 py-3 text-ink focus:outline-none"
+          {...props}
+        />
+        {suffix && <span className="pr-4 text-sm text-ink-soft">{suffix}</span>}
+      </div>
+      {hint && <p className="text-xs text-ink-soft">{hint}</p>}
+    </div>
+  );
+}
+
+/** Toggleable pill, used for trip styles and country filters. */
+export function Chip({ active, children, className = '', ...props }) {
+  return (
+    <button
+      type="button"
+      aria-pressed={active}
+      className={`rounded-full border px-3.5 py-1.5 text-sm transition-colors ${className} ${
+        active
+          ? 'border-terracotta bg-terracotta text-cream'
+          : 'border-sand bg-white text-ink-soft hover:border-terracotta/40 hover:text-ink'
+      }`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
+export function Select({ label, id, children, ...props }) {
+  return (
+    <div className="space-y-1.5">
+      <label htmlFor={id} className="block text-sm font-medium text-ink">
+        {label}
+      </label>
+      <select
+        id={id}
+        className="w-full appearance-none rounded-xl border border-sand bg-white px-4 py-3 text-ink
+                   focus:border-terracotta focus:outline-none focus:ring-2 focus:ring-terracotta/20"
+        {...props}
+      >
+        {children}
+      </select>
+    </div>
+  );
+}

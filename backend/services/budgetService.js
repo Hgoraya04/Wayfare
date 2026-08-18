@@ -99,8 +99,8 @@ export function assessFeasibility({
       shortfall: round2(floor.total - budget),
       message:
         `A ${durationDays}-day trip to ${destination.city} for ${travelers} ` +
-        `${travelers === 1 ? 'traveler' : 'travelers'} needs about $${floor.total} ` +
-        `at the most economical level — $${round2(floor.total - budget)} more than your budget.`,
+        `${travelers === 1 ? 'traveller' : 'travellers'} needs about ${usd(floor.total)} ` +
+        `at the most economical level — ${usd(floor.total - budget)} more than your budget.`,
     };
   }
 
@@ -220,6 +220,11 @@ export function validatePreferences(body) {
 
 function normalize(value) {
   return String(value).trim().toLowerCase();
+}
+
+/** Thousands separators so the API message matches how the UI renders money. */
+function usd(n) {
+  return `$${round2(n).toLocaleString('en-US')}`;
 }
 
 function round2(n) {

@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import { Spinner } from './components/ui.jsx';
 import Login from './pages/Login.jsx';
 import Destinations from './pages/Destinations.jsx';
+import Plan from './pages/Plan.jsx';
 
 function RequireAuth({ children }) {
   const { user, loading } = useAuth();
@@ -23,6 +24,14 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route
+            path="/plan"
+            element={
+              <RequireAuth>
+                <Plan />
+              </RequireAuth>
+            }
+          />
+          <Route
             path="/destinations"
             element={
               <RequireAuth>
@@ -30,7 +39,7 @@ export default function App() {
               </RequireAuth>
             }
           />
-          <Route path="*" element={<Navigate to="/destinations" replace />} />
+          <Route path="*" element={<Navigate to="/plan" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

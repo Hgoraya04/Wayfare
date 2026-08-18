@@ -193,8 +193,9 @@ and style filtering, seasonal ranking, and input validation.
 - [x] Claude itinerary generation with structured outputs
 - [ ] Google Places integration (restaurants + attractions)
 - [ ] Duffel flight pricing (test mode)
-- [x] React frontend scaffold — Tailwind theme, login, destination browser
-- [ ] Multi-step preferences form + itinerary view + map
+- [x] React frontend — Tailwind theme, login, destination browser
+- [x] Budget planner screen with the shortfall fallback
+- [ ] Itinerary view + map
 - [ ] Deploy (Vercel + Neon) and record the demo GIF
 - [ ] Response caching and rate-limit guardrails
 

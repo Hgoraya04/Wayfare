@@ -23,7 +23,7 @@ export default function Login() {
     try {
       if (isRegister) await register(email, password, fullName);
       else await login(email, password);
-      navigate('/destinations');
+      navigate('/plan');
     } catch (err) {
       setError(err.message);
     } finally {
